@@ -7,6 +7,11 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
+  this.route("signup");
+  this.route("login");
+  this.route("category", { path: "/categories/:rankable_group_title" })
+  this.route("task", { path: "/tasks/:rankable_group_id" });
+  this.route("tasks");
 });
 
 export default Router;

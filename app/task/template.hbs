@@ -1,0 +1,46 @@
+<main id="content" role="main">
+  <div class="w-90 pt3 h1 bg-dark-blue center"></div>
+  <div class="w-90 pt3 center helvetica">
+    <div class="flex">
+      <div class="w-75">
+        <div>
+          <div>
+            {{model.rankableGroup.title}}
+          </div>
+          <div class="b f1">
+            {{model.title}}
+          </div>
+
+          <div id="created-daate"></div>
+          <em id="last-modified-date"></em>
+        </div>
+
+        <div class="flex">
+          <div class="w-10">
+          </div>
+          <div class="w-90">
+            <div class="govuk-form-group">
+              <label class="govuk-label" for="more-detail">
+                Can you provide more detail?
+              </label>
+              <span id="more-detail-hint" class="govuk-hint">
+                Don’t include personal or financial information, eg your National Insurance number or credit card details.
+              </span>
+              <textarea class="govuk-textarea" id="more-detail" name="more-detail" rows="5" aria-describedby="more-detail-hint"></textarea>
+            </div>
+
+            <div class="ba bh2 b--black">
+
+              <input
+                class="w-100 bn black"
+                name="description"
+                onblur={{action "saveModel" "description" }}
+                placeholder={{unless model.description "This task has no description"}}
+                value={{model.description}}>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

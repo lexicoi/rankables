@@ -1,13 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Compare</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     {{content-for "head"}}
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{rootURL}}favicon.ico">
+
+    <!-- Google Fonts -->
+    <!-- <link href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+         -->
+
+    <!-- CSS Front Template -->
+    <link rel="stylesheet" href="{{rootURL}}assets/css/tachyons.min.css">
+    <link rel="stylesheet" href="{{rootURL}}assets/css/govuk-frontend-2.2.0.min.css">
+    <link rel="stylesheet" href="{{rootURL}}assets/css/govuk-frontend-ie8-2.2.0.min.css">
 
     <link integrity="" rel="stylesheet" href="{{rootURL}}assets/vendor.css">
     <link integrity="" rel="stylesheet" href="{{rootURL}}assets/compare.css">
@@ -17,8 +28,12 @@
   <body>
     {{content-for "body"}}
 
+
+    <!-- <script src="https://unpkg.com/immer/dist/immer.umd.js"></script> -->
+    <script src="{{rootURL}}assets/js/govuk-frontend-2.2.0.min.js"></script>
     <script src="{{rootURL}}assets/vendor.js"></script>
     <script src="{{rootURL}}assets/compare.js"></script>
+
 
     {{content-for "body-footer"}}
   </body>

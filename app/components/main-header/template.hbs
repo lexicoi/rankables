@@ -1,0 +1,45 @@
+<div class="w-100 helvetica">
+  <div class="bg-black ph6-ns pv2">
+    <div class="white b f3">
+      LEXICOI
+    </div>
+  </div>
+
+  <div class="bg-dark-blue ph6-ns pv3">
+    <div class="flex">
+      <div class="w-75">
+        <div class="f1 b white mb2">
+          Welcome to compare
+        </div>
+        <div class="f5 fw5 white mb3">
+          Spend less time managing and more time doing.
+        </div>
+
+        <div class="flex h2">
+          <form onsubmit={{action "createRankable"}}>
+            <input
+              type="text"
+              name="rankable-title"
+              class="pl2 cf fl bn h-100 border-box" placeholder=" What's on your mind?">
+            <input type="submit" value="+" class="w2 f4 dib white bg-black h-100 border-box ba b--black">
+          </form>
+        </div>
+      </div>
+
+      <div class="w-25">
+        <div class="pa3 h-100 w5 bg-black white">
+          <div class="f6 mb2 white">
+            Quick links:
+          </div>
+
+          <div class="f5 white b">
+            <a class="db mb1 link white underline" href="#">Categories</a>
+            {{#link-to "tasks" classNames="db mb1 link white underline"}}All tasks{{/link-to}}
+            <a class="db mb1 link white underline" href="#">Compare</a>
+            <a class="db mb1 link white underline" href="#">Settings</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
