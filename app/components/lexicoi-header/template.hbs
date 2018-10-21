@@ -1,0 +1,40 @@
+<header class="govuk-header " role="banner" data-module="header">
+  <div class="govuk-header__container govuk-width-container">
+    <div class="govuk-header__logo">
+      <a href="https://lexicoi.org" class="govuk-header__link govuk-header__link--homepage">
+        <span class="govuk-header__logotype">
+          <span class="govuk-header__logotype-text">
+            LEXICOI
+          </span>
+        </span>
+      </a>
+    </div>
+    <div class="govuk-header__content">
+      {{#link-to "index" classNames="govuk-header__link govuk-header__link--service-name"}}
+        Compare
+      {{/link-to}}
+
+      <button type="button" role="button" class="govuk-header__menu-button js-header-toggle" aria-controls="navigation" aria-label="Show or hide Top Level Navigation">Menu</button>
+      <nav>
+        <ul id="navigation" class="govuk-header__navigation " aria-label="Top Level Navigation">
+          <li class="govuk-header__navigation-item">
+            {{#link-to "tasks" classNames="govuk-header__link"}}
+              Tasks
+            {{/link-to}}
+            </li>
+
+            <li class="govuk-header__navigation-item">
+              {{#link-to "index" classNames="govuk-header__link"}}
+                Categories
+              {{/link-to}}
+            </li>
+          <li class="govuk-header__navigation-item">
+          <a class="govuk-header__link" href="/docs/about" data-about="About">
+            About
+          </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>

@@ -2,6 +2,9 @@
 
 module.exports = function(environment) {
   let ENV = {
+    emberPouch: {
+      localDb: "test"
+    },
     modulePrefix: 'compare',
     environment,
     rootURL: '/',
