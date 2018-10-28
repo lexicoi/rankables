@@ -1,13 +1,17 @@
 <div class="w-100 helvetica">
-  <div class="bg-black ph6-ns pv2">
-    <div class="white b f3">
-      LEXICOI
+  <header class="w-100 pa3 ph3 ph6-ns bg-black">
+    <div class="db dt-ns mw9 center w-100">
+      <div class="db dtc-ns v-mid tl w-50">
+        <a href="/" class="dib f5 f4-ns fw6 mt0 mb1 link white" title="Home">
+          LEXICOI
+        </a>
+      </div>
     </div>
-  </div>
+  </header>
 
   <div class="bg-dark-blue ph6-ns pv3">
-    <div class="flex">
-      <div class="w-75">
+    <div class="flex flex-wrap center ph3 ph4-ns">
+      <div class="w-100 w-70-ns">
         <div class="f1 b white mb2">
           Welcome to compare
         </div>
@@ -16,18 +20,18 @@
         </div>
 
         <div class="flex h2">
-          <form onsubmit={{action "createRankable"}}>
+          <form class="w-100 w-50-ns" onsubmit={{action "createRankable"}}>
             <input
               type="text"
               name="rankable-title"
-              class="pl2 cf fl bn h-100 border-box" placeholder=" What's on your mind?">
-            <input type="submit" value="+" class="w2 f4 dib white bg-black h-100 border-box ba b--black">
+              class="w-90 pl2 cf fl bn h-100 border-box" placeholder=" What's on your mind?">
+            <input type="submit" value="+" class="w-10 w2 f4 dib white bg-black h-100 border-box ba b--black">
           </form>
         </div>
       </div>
 
-      <div class="w-25">
-        <div class="pa3 h-100 w5 bg-black white">
+      <div class="w-100 w-30-ns pt3 pt0-ns">
+        <div class="w-100 pa3 h-100 w5 bg-black white">
           <div class="f6 mb2 white">
             Quick links:
           </div>
