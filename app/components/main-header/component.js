@@ -16,6 +16,7 @@ export default Component.extend({
         title: rankableTitle,
         rankableGroup: get(this, "rankableGroup")
       }).save().then((rankable) => {
+        rankable.reload();
         event.target["rankable-title"].value = null;
       })
 

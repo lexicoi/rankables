@@ -9,8 +9,12 @@ const Router = EmberRouter.extend({
 Router.map(function() {
   this.route("signup");
   this.route("login");
-  this.route("category", { path: "/categories/:rankable_group_title" })
-  this.route("task", { path: "/tasks/:rankable_group_id" });
+  this.route("category", { path: "/categories/:rankable_group_title" }, function() {
+    this.route("compare");
+  })
+  this.route("task", { path: "/tasks/:rankable_id" }, function() {
+    this.route("compare");
+  });
   this.route("tasks");
 });
 

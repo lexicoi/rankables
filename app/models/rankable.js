@@ -7,5 +7,6 @@ export default Model.extend({
   rankables: DS.hasMany("rankable"),
   rankableGroup: DS.belongsTo("rankable-group"),
   rank: DS.attr("number", { defaultValue: 0 }),
-  rankings: DS.attr({ defaultValue: function() { return [] } })
+  rankings: DS.attr({ defaultValue: function() { return [] } }),
+  parent: DS.belongsTo("rankable")
 });

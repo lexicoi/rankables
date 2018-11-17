@@ -1,20 +1,58 @@
-<main id="content" role="main">
-{{main-header rankableGroup=model}}
+<main class="helvetica" role="main">
+  {{main-header rankableGroup=model.rankableGroup}}
 
-<div class="w-90 pt3 center helvetica">
-  <div>
-    <div class="flex">
-      {{#each model.rankables as |rankable|}}
-        <div class="db">
-          {{#link-to "task" rankable}}
-            More details
+  <div class="ba pa3 ph6-ns">
+    {{#link-to "index" classNames="w-100 w-auto-ns ph1 f5 black b br"}}
+      Home
+    {{/link-to}}
+    {{#link-to "category" disabled classNames="w-100 w-auto-ns ph1 f5 black b link"}}
+      Category
+    {{/link-to}}
+  </div>
+
+  <div class="flex flex-wrap pa3 ph6-ns">
+    <div class="w-100 w-40-ns">
+      <div class="f3 b">Categories</div>
+      <ul class="list pl0 mr5-ns">
+        {{#each model.rankableGroups as |rankableGroup|}}
+          {{#link-to "category" rankableGroup.title
+            classNames="link dt w-100 bb b--black-10 pb2 mt2 dim blue"
+            tagName="a"}}
+            <div class="dtc v-top pl2">
+              <h1 class="f6 f5-ns fw6 lh-title black mv0">{{rankableGroup.title}}</h1>
+            </div>
           {{/link-to}}
-          {{rankable.title}}
-        </div>
-      {{/each}}
+        {{/each}}
+
+        <form onsubmit={{action "createRankableGroup"}} class="link dt w-100 bb b--black-10 pb2 mt2">
+          <input
+          type="text"
+          name="rankable-group-title"
+          class="f6 f5-ns fw6 lh-title black mv0 pl2 bn" placeholder="Add a new category">
+          <input type="submit" value="+" class="f4 dib h-100 border-box ba black bg-white b--black">
+        </form>
+      </ul>
+    </div>
+
+    <div class="w-100 w-60-ns">
+      <div class="flex">
+        <input type="submit" value="Compare unranked" class="pv1 f4 dib white bg-black h-100 border-box ba b--black">
+        <input type="submit" value="Compare all" class="pv1 f4 dib white bg-black h-100 border-box ba b--black">
+      </div>
+      <div class="f3 b">Tasks</div>
+      <ul class="list pl0">
+        {{#each model.rankables as |rankable|}}
+          <li>
+          {{#link-to "task" rankable.id
+            classNames="link dt w-100 bb b--black-10 pb2 mt2 dim blue"
+            tagName="a"}}
+            <div class="dtc v-top pl2">
+              <h1 class="f6 f5-ns fw6 lh-title black mv0">{{rankable.title}}</h1>
+            </div>
+            {{/link-to}}
+          </li>
+        {{/each}}
+      </ul>
     </div>
   </div>
-</div>
-
-<div class="h1 mt3 bg-black"></div>
 </main>
