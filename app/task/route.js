@@ -4,7 +4,7 @@ import { get } from "@ember/object";
 export default Route.extend({
 
   model(params) {
-    const rankableId = params["rankable_id"];
+    const rankableId = params["rankable-id"];
 
     return get(this, "store").findRecord("rankable", rankableId).then((rankable) => {
       return rankable.get("rankableGroup").then((rankableGroup) => {

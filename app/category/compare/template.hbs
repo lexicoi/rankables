@@ -1,0 +1,80 @@
+<main class="helvetica" role="main">
+  {{main-header rankableGroup=model.rankableGroup}}
+
+  <div class="ba pa3 ph6-ns">
+    {{#link-to "index" classNames="w-100 w-auto-ns ph1 f5 black b br"}}
+      Home
+    {{/link-to}}
+    {{#link-to "category" classNames="w-100 w-auto-ns ph1 f5 black b br"}}
+      Category
+    {{/link-to}}
+    {{#link-to "category.compare" classNames="w-100 w-auto-ns ph1 f5 black b link"}}
+      Compare
+    {{/link-to}}
+  </div>
+
+  <div class="flex flex-wrap pa3 ph6-ns">
+    <div class="w-100 w-40-ns">
+      <div class="f3 b">Tasks to Compare</div>
+      <ul class="list pl0 mr5-ns">
+        {{#each rankedRankables as |rankable|}}
+          {{#link-to "task" rankable.id
+            classNames="link dt w-100 bb b--black-10 pb2 mt2 dim blue"
+            tagName="a"}}
+            <div class="dtc v-top pl2">
+              <h1 class="f6 f5-ns fw6 lh-title black mv0">{{rankable.title}}</h1>
+            </div>
+          {{/link-to}}
+        {{else}}
+          <div class="dtc v-top pl2">
+            <h1 class="f6 f5-ns fw6 lh-title black mv0">
+              You're done comparing!
+            </h1>
+          </div>
+        {{/each}}
+      </ul>
+    </div>
+
+    <div class="w-100 w-60-ns">
+      <div class="f3 b">Compare</div>
+
+      {{#unless currentRankable}}
+        Looks like you're all set!
+        You can save your changes or cancel.
+
+        <div class="bg-black pa1">
+          <a href="#" class="white b" onclick={{action "saveComparison"}}>
+            Confirm.
+          </a>
+        </div>
+      {{/unless}}
+
+      {{#if currentRankable}}
+        <div class="bg-black b white pa3">
+          {{model.rankableToCompare.title}}
+        </div>
+
+        <div class="h2"></div>
+
+        <div class="bg-dark-blue b white pa3">
+          {{currentRankable.title}}
+        </div>
+
+        <div class="flex">
+          <a
+            href="#"
+            onclick={{action "compareLesser" currentRankable.id}}
+            class="underline hand w-100 w-50-ns b pa2 b--black bw1">
+            Less important
+          </a>
+          <a
+            href="#"
+            onclick={{action "compareGreater" currentRankable.id}}
+            class="underline hand w-100 w-50-ns b pa2 b--black bw1">
+            More important
+          </a>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</main>

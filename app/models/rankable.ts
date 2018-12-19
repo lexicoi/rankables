@@ -1,12 +1,17 @@
 import DS from "ember-data";
-import { Model } from "ember-pouch";
 
-export default Model.extend({
+export default class Rankable extends DS.Model.extend({
   title: DS.attr("string"),
   description: DS.attr("string"),
   rankables: DS.hasMany("rankable"),
   rankableGroup: DS.belongsTo("rankable-group"),
   rank: DS.attr("number", { defaultValue: 0 }),
   rankings: DS.attr({ defaultValue: function() { return [] } }),
-  parent: DS.belongsTo("rankable")
-});
+  rev: DS.attr("string")
+}) {};
+
+declare module "ember-data" {
+  interface ModelRegistry {
+    rankable: Rankable
+  }
+}

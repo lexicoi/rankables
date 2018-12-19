@@ -7,12 +7,12 @@ export default Route.extend({
   store: service(),
 
   model(params) {
-    const rankableGroupTitle = params["rankable_group_title"];
+    const rankableGroupTitle = this.paramsFor("category")["rankable-group-title"];
     return get(this, "store").queryRecord("rankable-group",  {
       filter: { title: rankableGroupTitle }
     }).then((rankableGroup) => {
       return Ember.RSVP.hash({
-        rankables: rankableGroup.rankables,
+        rankables: rankableGroup.get("rankables"),
         rankableGroup: rankableGroup,
         rankableGroups: get(this, "store").findAll("rankable-group")
       })

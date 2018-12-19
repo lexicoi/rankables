@@ -36,8 +36,12 @@
 
     <div class="w-100 w-60-ns">
       <div class="flex">
-        <input type="submit" value="Compare unranked" class="pv1 f4 dib white bg-black h-100 border-box ba b--black">
+        {{#link-to "category.compare" classNames="pv1 f4 dib white bg-black h-100 border-box ba b--black"}}
+          Compare unranked
+        {{/link-to}}
+
         <input type="submit" value="Compare all" class="pv1 f4 dib white bg-black h-100 border-box ba b--black">
+
       </div>
       <div class="f3 b">Tasks</div>
       <ul class="list pl0">
