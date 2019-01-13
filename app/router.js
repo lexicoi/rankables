@@ -16,6 +16,10 @@ Router.map(function() {
     this.route("compare");
   });
   this.route("tasks");
+
+  this.route("base", { path: "/" }, function() {
+    this.route("tasks", { path: "/:rankable-group-title" });
+  });
 });
 
 export default Router;

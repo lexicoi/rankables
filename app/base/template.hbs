@@ -1,0 +1,29 @@
+<div class="flex">
+  <div class="w-25">
+    {{!-- Categories block here --}}
+    <div id="categories" class="lh-copy">
+      <a class="f5 fw6 db black link dim" href="#0">General</a>
+
+      {{#each model as |rankableGroup|}}
+        {{#link-to "category" rankableGroup.title classNames="flex f5 fw6 db black link dim"}}
+          <div class="pr2">Icon</div>
+          <div class="pr2">{{rankableGroup.title}}</div>
+          <div class="pr2">4</div>
+        {{/link-to}}
+      {{/each}}
+
+      <form class="db" onsubmit={{action "createRankableGroup" rankableGroupTitle store}}>
+          <input
+            name="rankable-group-title"
+            class="f5 fw6 db blue bn w-100"
+            value={{rankableGroupTitle}}
+            onchange={{action (mut rankableGroupTitle) value="target.value"}}
+            placeholder="New list">
+      </form>
+    </div>
+  </div>
+
+  <div class="outline w-75 mw-100">
+    {{outlet}}
+  </div>
+</div>
