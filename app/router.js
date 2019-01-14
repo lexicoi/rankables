@@ -18,7 +18,10 @@ Router.map(function() {
   this.route("tasks");
 
   this.route("base", { path: "/" }, function() {
-    this.route("tasks", { path: "/:rankable-group-title" });
+    this.route("tasks", { path: "/:rankable-group-title" }, function() {
+      this.route("task", { path: "/:rankable-id" })
+      this.route("compare", { path: "/:rankable-id/compare" });
+    });
   });
 });
 

@@ -1,0 +1,31 @@
+{{#if currentRankable}}
+  <div class="flex">
+    <div>
+      {{!-- 
+      * Using the current ID, take all the tasks
+      * Show a number of tasks remaining
+      * Compare task specified in URL with new one
+      * When there are no more prompt to save
+      -> After prompt navigate to task detail page showing new ranking
+      -> If query parameter for all tasks was included prompt to do next
+      --}}
+      <div class="bg-black b white pa3">
+        {{model.rankable.title}}
+      </div>
+
+      <div class="h2"></div>
+
+      <div class="bg-dark-blue b white pa3">
+        {{currentRankable.title}}
+      </div>
+    </div>
+  </div>
+
+{{else}}
+  You need to compare some more of your rankables.
+  Nothing to do for now!
+
+  {{#link-to "base.tasks.task" model.rankable.id}}
+    Go back
+  {{/link-to}}
+{{/if}}

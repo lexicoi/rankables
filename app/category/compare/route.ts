@@ -57,7 +57,7 @@ export default Route.extend({
       return Ember.RSVP.hash({
         rankables: rankableGroup.rankables,
         rankableToCompare: rankableToCompare({
-          params: params
+          params: params,
           store: get(this, "store"),
           rankableGroup: rankableGroup
         }),

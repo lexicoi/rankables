@@ -2,10 +2,8 @@
   <div class="w-25">
     {{!-- Categories block here --}}
     <div id="categories" class="lh-copy">
-      <a class="f5 fw6 db black link dim" href="#0">General</a>
-
       {{#each model as |rankableGroup|}}
-        {{#link-to "category" rankableGroup.title classNames="flex f5 fw6 db black link dim"}}
+        {{#link-to "base.tasks" rankableGroup.title classNames="flex f5 fw6 db black link dim"}}
           <div class="pr2">Icon</div>
           <div class="pr2">{{rankableGroup.title}}</div>
           <div class="pr2">4</div>

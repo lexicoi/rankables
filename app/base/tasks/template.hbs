@@ -1,1 +1,20 @@
-Hello world
+<div class="flex">
+  <div class="w-two-thirds">
+    {{#each model.rankables as |rankable|}}
+      {{#link-to "base.tasks.task" rankable.id classNames="flex f5 fw6 db black link dim"}}
+        {{rankable.title}}
+      {{/link-to}}
+    {{/each}}
+
+    <div class="db">
+      <input
+         value={{rankableTitle}}
+         onchange={{action (mut rankableTitle) value="target.value"}}
+         onblur={{action "addNewRankable"  rankableTitle model.rankableGroup store}} placeholder="Add a new item">
+    </div>
+  </div>
+
+  <div class="w-third">
+    {{outlet}}
+  </div>
+</div>

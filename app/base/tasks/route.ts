@@ -5,11 +5,11 @@ import Ember from "ember";
 import { inject as service } from "@ember/service";
 import { get } from "@ember/object";
 
-export default class TasksRoute extends Route.extend({
+export default class BaseTasksRoute extends Route.extend({
   store: service("store")
 }) {
 
-  model(params: object) {
+  model(params: any) {
     const rankableGroupTitle = params["rankable-group-title"];
     return get(this, "store").queryRecord("rankable-group", {
       filter: { title: rankableGroupTitle }
@@ -20,4 +20,5 @@ export default class TasksRoute extends Route.extend({
       })
     })
   }
+
 }

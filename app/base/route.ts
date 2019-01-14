@@ -14,10 +14,4 @@ export default class BaseRoute extends Route {
       return data;
     })
   }
-
-  afterModel() {
-    this.transitionTo("tasks", "General");
-  }
-
-
 };
