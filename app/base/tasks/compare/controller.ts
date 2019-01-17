@@ -11,9 +11,8 @@ const $ = tailored.variable();
 
 export default class BaseTasksCompareController extends Controller {
 
-  previousCurrentRankableId: string = "";
-  previousComparison: string = "";
-
+  previousCurrentRankableId = alias("model.previousCurrentRankableId");
+  previousComparison = alias("model.previousComparison")
   lowerBound = alias("model.lowerBound");
   upperBound = alias("model.upperBound");
 
@@ -86,11 +85,16 @@ export default class BaseTasksCompareController extends Controller {
     }
   );
 
-  currentRankable = computed("rankedRankables.[]",
+  currentRankable = computed("newRankings.@each",
     function(this: BaseTasksCompareController): any {
-      const otherRankables = get(this, "rankedRankables");
+      const otherRankables = get(this, "newRankings");
       const middleIndex = Math.floor(otherRankables.length/2);
-      return otherRankables[middleIndex];
+      const tentativeCurrentRankable = otherRankables[middleIndex];
+      if (!tentativeCurrentRankable) {
+        return null;
+      }
+
+      return this.store.peekRecord("rankable", tentativeCurrentRankable);
     }
   );
 
@@ -102,7 +106,7 @@ export default class BaseTasksCompareController extends Controller {
 
       tailored.defmatch(
         tailored.clause(["lesser", { id: $ }], (currentRankableId: string) => {
-          set(this, "upperBound", rankings.length - 1);
+          set(this, "upperBound", rankings.length);
           set(this, "lowerBound", index + 1);
           set(this, "previousCurrentRankableId", currentRankableId);
           set(this, "previousComparison", "lesser");
@@ -143,7 +147,14 @@ export default class BaseTasksCompareController extends Controller {
       }
 
       tentativeRankings.forEach((value: string, index: number) => {
-        if (value === rankings[index]) {
+        // Here you will have to do some sort of offset to prevent
+        // multiple items from having the same value
+        /*
+         *   0    1    2    3
+         * ['1', 'c', '7', 'e']
+         * ['1', 'c', '7']
+         */
+        if (value === rankings[index] && (tentativeRankings[index + 1] && rankings[index + 1])) {
           return;
         }
 

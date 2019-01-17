@@ -18,16 +18,20 @@ export default class BaseTasksCompareRoute extends Route {
     return Ember.RSVP.hash({
       rankableGroup: rankableGroup,
       rankables: rankables,
-      rankings: get(rankableGroup, "rankings"),
+      rankings: get(rankableGroup, "rankings").slice(0) /* Dereference */,
       rankable: get(this, "store").findRecord("rankable", params["rankable-id"]),
-      upperBound: Number.MAX_SAFE_INTEGER,
-      lowerBound: 0
     });
   };
 
   afterModel(model: any) {
     let rankable: Rankable = model.rankable;
     let rankableGroup: RankableGroup = model.rankableGroup;
+
+    // Changes necessary to reset ranking status:
+    set(model, "previousCurrentRankableId", "");
+    set(model, "previousComparison", "");
+    set(model, "upperBound", Number.MAX_SAFE_INTEGER);
+    set(model, "lowerBound", 0);
 
     if (get(rankable, "rank") === 0 && get(rankableGroup, "rankings").length === 0) {
       set(rankable, "rank", 1);
