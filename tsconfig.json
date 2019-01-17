@@ -32,6 +32,7 @@
     }
   },
   "include": [
+    "intern/**/*",
     "app/**/*",
     "tests/**/*",
     "types/**/*"

@@ -1,5 +1,5 @@
 import Route from "@ember/routing/route";
-import { get } from "@ember/object";
+import { get, set } from "@ember/object";
 import Ember from "ember";
 import RankableGroup from "compare/models/rankable-group";
 import Rankable from "compare/models/rankable";
@@ -19,7 +19,9 @@ export default class BaseTasksCompareRoute extends Route {
       rankableGroup: rankableGroup,
       rankables: rankables,
       rankings: get(rankableGroup, "rankings"),
-      rankable: get(this, "store").findRecord("rankable", params["rankable-id"])
+      rankable: get(this, "store").findRecord("rankable", params["rankable-id"]),
+      upperBound: Number.MAX_SAFE_INTEGER,
+      lowerBound: 0
     });
   };
 
@@ -27,12 +29,13 @@ export default class BaseTasksCompareRoute extends Route {
     let rankable: Rankable = model.rankable;
     let rankableGroup: RankableGroup = model.rankableGroup;
 
-    if (rankable.get("rank") === 0 && rankableGroup.get("rankings").length === 0) {
-      rankable.set("rank", 1);
+    if (get(rankable, "rank") === 0 && get(rankableGroup, "rankings").length === 0) {
+      set(rankable, "rank", 1);
       rankable.save().then((rankable: Rankable) => {
-        rankableGroup.get("rankings").pushObject(rankable.id);
+        get(rankableGroup, "rankings").pushObject(rankable.id);
         rankableGroup.save();
       });
     }
-  }
+  };
+
 }

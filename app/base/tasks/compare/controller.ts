@@ -2,32 +2,82 @@ import Controller from "@ember/controller";
 import Rankable from "compare/models/rankable";
 import RankableGroup from "compare/models/rankable-group";
 import { computed, get, set } from "@ember/object";
+import { alias } from '@ember/object/computed';
 import produce from "immer";
 //@ts-ignore
 import tailored from "tailored";
 
+const $ = tailored.variable();
+
 export default class BaseTasksCompareController extends Controller {
 
-  previousCurrentRankableId: string =  null;
-  previousComparison: string = null;
+  previousCurrentRankableId: string = "";
+  previousComparison: string = "";
 
-  // These are the rankings when not taking into account the item currently being compared (in the
-  // URL)
-  newRankings = computed("model.rankings.[]", "model.rankable",
+  lowerBound = alias("model.lowerBound");
+  upperBound = alias("model.upperBound");
+
+  // This is the ranking list taking into account where you are in the comparison sequence
+  newRankings = computed(
+    "model.rankings.[]", 
+    "model.rankable",
+    "model.upperBound",
+    "model.lowerBound",
     function(this: BaseTasksCompareController): string[] {
       const model = get(this, "model");
       const rankableToCompare = get(model, "rankable");
 
-      const newRankings = produce(get(model, "rankings"), draftRankings => {
-        draftRankings.removeObject(rankableToCompare.id);
-      });
+      const lowerBound = get(this, "lowerBound");
+      const upperBound = get(this, "upperBound");
 
-      return newRankings;
+      let tempRankings = get(model, "rankings");
+      tempRankings.removeObject(get(rankableToCompare, "id"))
+      return tempRankings.slice(lowerBound, upperBound);
+    }
+  );
+
+  // This represents rankings that will be saved, if desired
+  tentativeRankings = computed(
+    "newRankings",
+    "previousCurrentRankableId",
+    "previousComparison",
+    "model.rankable",
+    "model.rankings",
+    function(this: BaseTasksCompareController): string[] {
+      const rankings = this.model.rankings;
+      const previousCurrentRankableId = this.previousCurrentRankableId;
+      const rankableId = this.model.rankable.id;
+      let previousRankableIndex = rankings.indexOf(previousCurrentRankableId);
+
+      return tailored.defmatch(
+        tailored.clause(["greater"], () => {
+          return produce(rankings, draftRankings => {
+            draftRankings.removeObject(previousCurrentRankableId);
+            draftRankings.insertAt(previousRankableIndex, rankableId);
+            draftRankings.insertAt(previousRankableIndex + 1, previousCurrentRankableId);
+            return draftRankings;
+          });
+        }),
+
+        tailored.clause(["lesser"], () => {
+          return produce(rankings, draftRankings => {
+            draftRankings.removeObject(previousCurrentRankableId);
+            draftRankings.insertAt(previousRankableIndex, previousCurrentRankableId);
+            draftRankings.insertAt(previousRankableIndex + 1, rankableId);
+            return draftRankings;
+          });
+        }),
+
+        tailored.clause([""], () => {
+          return null;
+        })
+
+      )(this.previousComparison)
     }
   );
 
   // These are the rankables associated with the rankings specified
-  rankedRankables = computed("model.rankables.[]", "newRankings.[]",
+  rankedRankables = computed("model.rankable.id", "model.rankables.[]", "newRankings.[]",
     function(this: BaseTasksCompareController): any {
       const rankables = get(get(this, "model"), "rankables");
       return rankables.filter((rankable: Rankable) => {
@@ -48,135 +98,70 @@ export default class BaseTasksCompareController extends Controller {
     compare(this: BaseTasksCompareController, comparison: string, currentRankable: Rankable): void {
       const rankings = get(this, "newRankings");
       const index = rankings.indexOf(currentRankable.id);
+      const self = this;
 
       tailored.defmatch(
         tailored.clause(["lesser", { id: $ }], (currentRankableId: string) => {
-          const afterCompareRankings = rankings.slice(index + 1, rankings.length - 1);
+          set(this, "upperBound", rankings.length - 1);
+          set(this, "lowerBound", index + 1);
           set(this, "previousCurrentRankableId", currentRankableId);
           set(this, "previousComparison", "lesser");
-          set(this, "newRankings", afterCompareRankings)
+          console.log(self);
         }),
 
         tailored.clause(["greater", { id: $ }], (currentRankableId: string) => {
-          const afterCompareRankings = rankings.slice(0, index);
+          set(this, "upperBound", index);
+          set(this, "lowerBound", 0);
           set(this, "previousCurrentRankableId", currentRankableId);
           set(this, "previousComparison", "greater");
-          set(this, "newRankings", afterCompareRankings)
+          console.log(self);
         })
       )(comparison, currentRankable)
     },
 
     saveComparison(this: BaseTasksCompareController, event?: MouseEvent): void {
-      tailored.defmatch(
-        tailored.clause([undefined], () => { return }),
-        tailored.clause([{ target: undefined }], () => { return })
-      )(event);
+      if (event && event.target) {
+        event.preventDefault();
+      }
 
-      event.preventDefault();
+      const tentativeRankings = get(this, "tentativeRankings");
+      const model = get(this, "model");
+      const rankings = get(model, "rankings");
+      const rankableGroup = get(model, "rankableGroup");
 
-      tailored.defmatch(
-        tailored.clause([{
-          currentRankable: undefined,
-          previousComparison: "lesser",
-          previousCurrentRankableId: $,
-          model: {
-            rankings: $,
-            rankableGroup: $,
-            rankableToCompare: $
-          }
-        }], (previousCurrentRankableId: string, rankings: string[], rankableGroup: RankableGroup, rankableToCompare: Rankable) => {
-          let previousRankableIndex = rankings.indexOf(previousCurrentRankableId);
-          const newRankings = produce(rankings, draftRankings => {
-            draftRankings.removeObject(previousCurrentRankableId);
-            draftRankings.insertAt(previousRankableIndex, rankableToCompare.id);
-            draftRankings.insertAt(previousRankableIndex + 1, previousCurrentRankableId);
-          });
-
-          set(rankableGroup, "rankings", newRankings);
-
-          tailored.defmatch(
-            tailored.clause([$], ({ newRankings, rankings }: { newRankings: string[], rankings: string[] }) => {
-              newRankings.forEach((value, index) => {
-                if (value === rankings[index]) {
-                  return;
-                }
-
-                const rankableId = newRankings[index] || rankings[index]
-                this.store.findRecord("rankable", rankableId).then((rankable: Rankable) => {
-                  rankable.set("rank", index + 1);
-                  rankable.save();
-                });
-              })
-            })
-          )({ newRankings, rankings })
-
+      if (!tentativeRankings && rankings.length === 0) {
+        const rankable = get(model, "rankable");
+        rankable.set("rank", 1);
+        rankable.save().then((rankable: Rankable) => { 
+          rankable.reload()
+          rankableGroup.get("rankings").pushObject(rankable.id);
           rankableGroup.save();
+        });
 
-        }),
+        this.transitionToRoute("base.tasks", rankableGroup.title);
+        return;
+      }
 
-        tailored.clause([{
-          currentRankable: undefined,
-          previousComparison: "greater",
-          previousCurrentRankableId: $,
-          model: {
-            rankings: $,
-            rankableGroup: $,
-            rankableToCompare: $
-          }
-        }], (previousCurrentRankableId: string, rankings: string[], rankableGroup: RankableGroup, rankableToCompare: Rankable) => {
-          let previousRankableIndex = rankings.indexOf(previousCurrentRankableId);
-          const newRankings = produce(rankings, draftRankings => {
-            draftRankings.removeObject(previousCurrentRankableId);
-            draftRankings.insertAt(previousRankableIndex, previousCurrentRankableId);
-            draftRankings.insertAt(previousRankableIndex + 1, rankableToCompare.id);
+      tentativeRankings.forEach((value: string, index: number) => {
+        if (value === rankings[index]) {
+          return;
+        }
+
+        const rankableId = tentativeRankings[index] || rankings[index]
+        this.store.findRecord("rankable", rankableId).then((rankable: Rankable) => {
+          rankable.set("rank", index + 1);
+          rankable.save().then((rankable: Rankable) => { 
+            rankable.reload()
           });
+        });
+      })
 
-          set(rankableGroup, "rankings", newRankings);
-
-          tailored.defmatch(
-            tailored.clause([$], ({newRankings, rankings}: { newRankings: string[], rankings: string[] }) => {
-              newRankings.forEach((value, index) => {
-                if (value === rankings[index]) {
-                  return;
-                }
-
-                const rankableId = newRankings[index] || rankings[index]
-                this.store.findRecord("rankable", rankableId).then((rankable: Rankable) => {
-                  rankable.set("rank", index + 1);
-                  rankable.save();
-                });
-              })
-            })
-          )({ newRankings, rankings })
-
-          rankableGroup.save();
-        }),
-
-        tailored.clause([{
-          model: {
-            rankableGroup: $,
-            rankableToCompare: $,
-          }
-        }], (rankableGroup: RankableGroup, rankableToCompare: Rankable) => {
-          rankableGroup.get("rankings").pushObject(rankableToCompare.id);
-          set(rankableToCompare, "rank", 1);
-          rankableToCompare.save().then(() => {
-            rankableGroup.save().then(() => {
-              this.transitionToRoute("category", rankableGroup.title);
-            });
-          });
-        }, (length: number) => length === 0),
-
-        tailored.clause([{
-          model: { rankableGroup: { title: $ } }
-        }], (rankableGroupTitle: string) => {
-          this.transitionToRoute("category", rankableGroupTitle);
-        })
-
-      )(this.getProperties("model", "currentRankable", "previousComparison", "previousCurrentRankableId"))
-
-
-      this.transitionToRoute("base.tasks", get(this, "model").get("rankableGroup").title);
+      rankableGroup.set("rankings", tentativeRankings);
+      rankableGroup.save().then((rankableGroup: RankableGroup) => {
+        rankableGroup.reload();
+        this.transitionToRoute("base.tasks", rankableGroup.title);
+        return 
+      })
     }
   }
 
