@@ -1,19 +1,35 @@
+<div id="header" class="pv3 bg-black white">
+  <div class="fl ph4">
+    △
+  </div>
+  <div class="ph2 b white helvetica">
+    rankables
+  </div>
+</div>
+
 <div class="flex">
-  <div class="w-25">
-    {{!-- Categories block here --}}
-    <div id="categories" class="lh-copy">
+  <div class="w-25 vh-100 bg-black-10">
+    <div class="lh-copy f5 fw6 black">
+      <div class="helvetica flex dib link dim pv2 ph2">
+        <span class="w-10 ph1">=</span>
+      </div>
+
       {{#each model as |rankableGroup|}}
-        {{#link-to "base.tasks" rankableGroup.title classNames="flex f5 fw6 db black link dim"}}
-          <div class="pr2">Icon</div>
-          <div class="pr2">{{rankableGroup.title}}</div>
-          <div class="pr2">4</div>
+        {{#link-to "base.tasks" rankableGroup.title
+        classNames="helvetica flex f5 dib black link dim pv2 ph2"}}
+          <span class="w-10 ph1">✦</span>
+          <span class="w-80 ph1">{{rankableGroup.title}}</span>
+          <span class="w-10 ph1 fr">{{rankableGroup.rankables.length}}</span>
         {{/link-to}}
       {{/each}}
 
-      <form class="db" onsubmit={{action "createRankableGroup" rankableGroupTitle store}}>
+      <form
+        class="flex db pv2 ph2 helvetica"
+        onsubmit={{action "createRankableGroup" rankableGroupTitle store}}>
+          <span class="w-10 ph1">✦</span>
           <input
             name="rankable-group-title"
-            class="f5 fw6 db blue bn w-100"
+            class="db bg-transparent bn w-90"
             value={{rankableGroupTitle}}
             onchange={{action (mut rankableGroupTitle) value="target.value"}}
             placeholder="New list">
@@ -21,7 +37,7 @@
     </div>
   </div>
 
-  <div class="outline w-75 mw-100">
+  <div class="w-75 mw-100">
     {{outlet}}
   </div>
 </div>
