@@ -5,7 +5,7 @@ module.exports = function(environment) {
     emberPouch: {
       localDb: "test"
     },
-    modulePrefix: 'compare',
+    modulePrefix: 'rankables',
     environment,
     rootURL: '/',
     locationType: 'auto',

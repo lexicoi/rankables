@@ -1,8 +1,8 @@
 import Route from "@ember/routing/route";
 import { get, set } from "@ember/object";
 import Ember from "ember";
-import RankableGroup from "compare/models/rankable-group";
-import Rankable from "compare/models/rankable";
+import RankableGroup from "rankables/models/rankable-group";
+import Rankable from "rankables/models/rankable";
 
 interface ParametersInterface {
   "rankable-id": string

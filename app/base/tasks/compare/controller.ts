@@ -1,11 +1,12 @@
 import Controller from "@ember/controller";
-import Rankable from "compare/models/rankable";
-import RankableGroup from "compare/models/rankable-group";
+import Rankable from "rankables/models/rankable";
+import RankableGroup from "rankables/models/rankable-group";
 import { computed, get, set } from "@ember/object";
 import { alias } from '@ember/object/computed';
 import produce from "immer";
 //@ts-ignore
 import tailored from "tailored";
+import { resetRankings } from "./utils";
 
 const $ = tailored.variable();
 
@@ -98,6 +99,23 @@ export default class BaseTasksCompareController extends Controller {
     }
   );
 
+  resetRankings(store: any, rankableGroup: RankableGroup, tentativeRankings: string[]): void {
+    const rankings = get(rankableGroup, "rankings");
+    tentativeRankings.forEach((value: string, index: number) => {
+      if (value === rankings[index] && (tentativeRankings[index + 1] && rankings[index + 1])) {
+        return;
+      }
+
+      const rankableId = tentativeRankings[index] || rankings[index]
+      store.findRecord("rankable", rankableId).then((rankable: Rankable) => {
+        rankable.set("rank", index + 1);
+        rankable.save().then((rankable: Rankable) => {
+          rankable.reload()
+        });
+      });
+    })
+  }
+
   actions = {
     compare(this: BaseTasksCompareController, comparison: string, currentRankable: Rankable): void {
       const rankings = get(this, "newRankings");
@@ -136,7 +154,7 @@ export default class BaseTasksCompareController extends Controller {
       if (!tentativeRankings && rankings.length === 0) {
         const rankable = get(model, "rankable");
         rankable.set("rank", 1);
-        rankable.save().then((rankable: Rankable) => { 
+        rankable.save().then((rankable: Rankable) => {
           rankable.reload()
           rankableGroup.get("rankings").pushObject(rankable.id);
           rankableGroup.save();
@@ -146,34 +164,17 @@ export default class BaseTasksCompareController extends Controller {
         return;
       }
 
-      tentativeRankings.forEach((value: string, index: number) => {
-        // Here you will have to do some sort of offset to prevent
-        // multiple items from having the same value
-        /*
-         *   0    1    2    3
-         * ['1', 'c', '7', 'e']
-         * ['1', 'c', '7']
-         */
-        if (value === rankings[index] && (tentativeRankings[index + 1] && rankings[index + 1])) {
-          return;
-        }
+      resetRankings(this.store, tentativeRankings, rankings).then(() => {
+        rankableGroup.set("rankings", tentativeRankings);
+        rankableGroup.save().then((rankableGroup: RankableGroup) => {
+          rankableGroup.reload();
+          this.transitionToRoute("base.tasks", rankableGroup.title);
+          return
+        })
+      });
 
-        const rankableId = tentativeRankings[index] || rankings[index]
-        this.store.findRecord("rankable", rankableId).then((rankable: Rankable) => {
-          rankable.set("rank", index + 1);
-          rankable.save().then((rankable: Rankable) => { 
-            rankable.reload()
-          });
-        });
-      })
+    },
 
-      rankableGroup.set("rankings", tentativeRankings);
-      rankableGroup.save().then((rankableGroup: RankableGroup) => {
-        rankableGroup.reload();
-        this.transitionToRoute("base.tasks", rankableGroup.title);
-        return 
-      })
-    }
   }
 
 }

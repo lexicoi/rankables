@@ -20,10 +20,10 @@
     "baseUrl": ".",
     "module": "es6",
     "paths": {
-      "compare/tests/*": [
+      "rankables/tests/*": [
         "tests/*"
       ],
-      "compare/*": [
+      "rankables/*": [
         "app/*"
       ],
       "*": [
@@ -32,9 +32,8 @@
     }
   },
   "include": [
-    "intern/**/*",
     "app/**/*",
-    "tests/**/*",
+    // "tests/**/*",
     "types/**/*"
   ]
 }

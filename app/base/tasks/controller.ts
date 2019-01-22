@@ -1,6 +1,7 @@
 import Controller from "@ember/controller";
-import RankableGroup from "compare/models/rankable-group";
-import Rankable from "compare/models/rankable";
+import RankableGroup from "rankables/models/rankable-group";
+import Rankable from "rankables/models/rankable";
+import { set, get } from "@ember/object";
 import Ember from "ember";
 //@ts-ignore
 import tailored from "tailored";
@@ -12,14 +13,28 @@ export default class BaseTasksController extends Controller {
 
   actions = {
 
+    updateRankableGroupTitle(this: BaseTasksController, rankableGroup: RankableGroup, event: any) {
+      if (event && event.target) {
+        if (event.target.value === rankableGroup.title) {
+          return
+        }
+
+        set(rankableGroup, "title", event.target.value);
+        rankableGroup.save();
+      }
+    },
+
     deleteRankableGroup(this: BaseTasksController, rankableGroup: RankableGroup) {
-      let promisesToResolve: Promise<any>[] = [];
-      rankableGroup.rankables.forEach((rankable) => {
+      /* Right now the build hangs if you specify the ArrayPrototype, e.g. Promise<Rankable> */
+      let promisesToResolve: any = [];
+      get(rankableGroup, "rankables").forEach((rankable: Rankable) => {
         promisesToResolve.pushObject(rankable.destroyRecord());
       });
 
       Ember.RSVP.all(promisesToResolve).then(() => {
-        rankableGroup.destroyRecord();
+        rankableGroup.destroyRecord().then(() => {
+          this.transitionToRoute("base");
+        });
       });
     },
 

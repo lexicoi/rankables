@@ -1,45 +1,77 @@
-{{log this}}
-{{#if currentRankable}}
-  <div class="flex">
-    <div>
-      {{!-- 
-      * Using the current ID, take all the tasks
-      * Show a number of tasks remaining
-      * Compare task specified in URL with new one
-      * When there are no more prompt to save
-      -> After prompt navigate to task detail page showing new ranking
-      -> If query parameter for all tasks was included prompt to do next
-      --}}
-    Comparisons Remaining: {{newRankings.length}}
-      <div class="bg-black b white pa3">
-        {{model.rankable.title}}
+<div class="helvetica vh-100 w-90 mv3 mh2 outline">
+  <div class="bg-black h1 mb3"></div>
+  <div class="ph3">
+    {{#if currentRankable}}
+      <div class="flex">
+        <div class="w-90 f3 fw9">Ranking</div>
+        <div class="w-10 f6">x</div>
       </div>
 
-      <div class="h2"></div>
-
-      <div class="bg-dark-blue b white pa3">
-        {{currentRankable.title}}
+      <div class="">
+        <span class="ttu f6 measure">Max comparisons remaining</span>
+        <div class="bg-black white">{{newRankings.length}}</div>
       </div>
 
-      <button onclick={{action "compare" "lesser" currentRankable}}>
-        {{model.rankable.title}} is less important
-      </button>
+      <blockquote class="pa2">
+        Is the rankable you're considering more or less
+        important than your rankable?
+      </blockquote>
 
-      <button onclick={{action "compare" "greater" currentRankable}}>
-        {{model.rankable.title}} is more important
-      </button>
-    </div>
+      <div class="mb3">
+        <span class="ttu f6 measure">your rankable</span>
+        <div class="bg-black b white pa3">
+          {{model.rankable.title}}
+        </div>
+      </div>
+
+      <div class="mb3">
+        <span class="ttu f6 measure">what you're considering</span>
+        <div class="bg-dark-blue b white pa3">
+          {{currentRankable.title}}
+        </div>
+      </div>
+
+
+      <div class="flex helvetica">
+        <button 
+           type="button" 
+           onclick={{action "compare" "lesser" currentRankable}}
+           class="ma1 bg-white hover-white hover-bg-black fw6 dib pv1 ph3 b--black pointer w-50">
+          less important
+        </button>
+
+        <button
+           type="button"
+           onclick={{action "compare" "greater" currentRankable}}
+           class="ma1 bg-white hover-white hover-bg-black fw6 dib pv1 ph3 b--black pointer w-50">
+          more important
+        </button>
+      </div>
+
+    {{else}}
+      <div class="flex">
+        <div class="w-90 f3 fw9">Ranking complete</div>
+      </div>
+
+      <blockquote class="pa2">
+        All of your rankables for this group have been ranked.
+        Save and go back or cancel.
+      </blockquote>
+
+      <div class="flex">
+        {{#link-to "base.tasks.task" model.rankable.id
+          tagName="button"
+          classNames="ma1 bg-white hover-white hover-bg-black fw6 dib pv1 ph3 b--black pointer w-50"}}
+          Cancel
+        {{/link-to}}
+
+        <button
+          class="ma1 bg-white hover-white hover-bg-black fw6 dib pv1 ph3 b--black pointer w-50"
+          onclick={{action "saveComparison" previousComparison}}>
+          Save
+        </button>
+      </div>
+
+    {{/if}}
   </div>
-
-{{else}}
-  You need to compare some more of your rankables.
-  Nothing to do for now!
-
-  {{#link-to "base.tasks.task" model.rankable.id}}
-    Go back
-  {{/link-to}}
-
-  <button onclick={{action "saveComparison" previousComparison}}>
-    Save and go back
-  </button>
-{{/if}}
+</div>

@@ -1,21 +1,45 @@
-<div class="pb1">
-  <span class="ttu f6 measure">Ranking</span>
-  <div class="bg-black white">{{model.rank}}</div>
+<div class="helvetica vh-100 w-90 mv3 mh2 outline">
+  <div class="bg-black h1 mb3"></div>
+  <div class="ph3">
+    <div class="f3 fw9">Details</div>
+
+    <div class="pv1">
+      <span class="ttu f6 measure">Rank</span>
+      <div class="bg-black white">{{model.rank}}</div>
+    </div>
+
+    <div class="pv1">
+      <span class="ttu f6 measure">Title</span>
+      <input 
+            class="b--black w-100 db" 
+            style="border-width: 1px" 
+            onchange={{action "updateRankable" model "title"}}
+            value={{model.title}}>
+    </div>
+
+    <div class="pv1">
+      <span class="ttu f6 measure">Description</span>
+      <textarea
+            class="b--black db h4 w-100"
+            onchange={{action "updateRankable" model "description"}}
+            value={{model.description}}>
+      </textarea>
+    </div>
+
+    <div>
+      {{#link-to "base.tasks.compare" model.id
+        classNames="f6 no-underline black bg-animate hover-bg-black hover-white inline-flex
+        items-center pa2 ba border-box dib"}}
+        <span class="pl1">rank</span>
+      {{/link-to}}
+
+      <button
+          onclick={{action "deleteRankable" model}}
+          class="f6 no-underline black bg-animate hover-bg-red inline-flex
+          items-center pa2 ba border-box dib bg-black white"
+          type="button">
+        delete
+      </button>
+    </div>
+  </div>
 </div>
-
-<div class="bb"></div>
-
-<div class="pb1">
-  <span class="ttu f6 measure">Title</span>
-  <div>{{model.title}}</div>
-</div>
-
-<div class="bb"></div>
-
-{{#link-to "base.tasks.compare" model.id classNames="f6 no-underline black bg-animate hover-bg-black hover-white inline-flex items-center pa2 ba border-box mr4"}}
-  <svg class="w1" data-icon="chevronLeft" viewBox="0 0 32 32" style="fill:currentcolor">
-    <title>Compare</title>
-    <path d="M20 1 L24 5 L14 16 L24 27 L20 31 L6 16 z"></path>
-  </svg>
-  <span class="pl1">Compare</span>
-{{/link-to}}

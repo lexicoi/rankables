@@ -3,10 +3,14 @@
     <div class="flex dib pv2 ph2 hide-child">
       <input
         value={{model.rankableGroup.title}}
-        class="helvetica ph1 bn bg-transparent lh-copy f5 fw6 black">
-      <span onclick={{action "deleteRankableGroup" model.rankableGroup}} class="child">
+        onchange={{action "updateRankableGroupTitle" model.rankableGroup}}
+        class="helvetica ph1 bn bg-transparent lh-copy f3 fw6 black">
+      <button 
+        type="button" 
+        onclick={{action "deleteRankableGroup" model.rankableGroup}}
+        class="helvetica bg-black bn white fw6 dib pv1 ph3 b--black pointer child">
         delete
-      </span>
+      </button>
     </div>
 
     <div class="lh-copy f5 fw6 black">
@@ -20,18 +24,13 @@
     <div class="db">
       <input
          value={{rankableTitle}}
-         class="bn bg-transparent pv2 ph2"
-         style="width: 100vw"
+         class="bn bg-transparent pv2 ph2 w-100"
          onchange={{action (mut rankableTitle) value="target.value"}}
          onblur={{action "addNewRankable"  rankableTitle model.rankableGroup store}} placeholder="Add a new item">
     </div>
   </div>
 
   <div class="w-third">
-    {{#unless outlet}}
-      NOTHING HERE
-    {{else}}
-      {{outlet}}
-    {{/unless}}
+    {{outlet}}
   </div>
 </div>

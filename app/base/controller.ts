@@ -1,5 +1,5 @@
 import Controller from "@ember/controller";
-import RankableGroup from "compare/models/rankable-group";
+import RankableGroup from "rankables/models/rankable-group";
 
 export default class BaseController extends Controller {
 

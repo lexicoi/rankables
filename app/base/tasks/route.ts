@@ -1,5 +1,5 @@
 import Route from "@ember/routing/route";
-import RankableGroup from "compare/models/rankable-group";
+import RankableGroup from "rankables/models/rankable-group";
 import Ember from "ember";
 
 import { inject as service } from "@ember/service";
