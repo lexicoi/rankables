@@ -1,5 +1,6 @@
 import Route from "@ember/routing/route";
 import { get } from "@ember/object";
+import Ember from "ember";
 
 interface ParametersInterface {
   "rankable-id": string;
@@ -8,6 +9,9 @@ interface ParametersInterface {
 export default class BaseTasksTaskRoute extends Route {
 
   model(params: ParametersInterface) {
-    return get(this, "store").findRecord("rankable", params["rankable-id"]);
+    return Ember.RSVP.hash({
+      rankable: get(this, "store").findRecord("rankable", params["rankable-id"]),
+      rankableGroup: this.modelFor("base.tasks").rankableGroup
+    })
   }
 }
