@@ -1,22 +1,27 @@
 <div id="header" class="pv3 bg-black white">
-  <div class="fl ph4">
+  <span class="ph4">
     △
-  </div>
-  <div class="ph2 b white helvetica">
+  </span>
+  <span class="b white helvetica">
     rankables
-  </div>
+  </span>
+  <button class="fr bg-white black bn dn-ns dib mr3">
+    =
+  </button>
 </div>
 
-<div class="flex">
-  <div class="w-25 vh-100 bg-black-10">
+<div>
+</div>
+
+<div class="flex flex-wrap">
+  <div class="w-25-ns w-100 db-m db-l vh-100 bg-black-10">
     <div class="lh-copy f5 fw6 black">
       <div class="helvetica flex dib link dim pv2 ph2">
-        <span class="w-10 ph1">=</span>
       </div>
 
       {{#each model as |rankableGroup|}}
         {{#link-to "base.tasks" rankableGroup.title
-        classNames="helvetica flex f5 dib black link dim pv2 ph2"}}
+        classNames="helvetica flex f5 dib black link dim pv2 ph2 db-ns dn"}}
           <span class="w-10 ph1">✦</span>
           <span class="w-80 ph1">{{rankableGroup.title}}</span>
           <span class="w-10 ph1 fr">{{rankableGroup.rankables.length}}</span>
@@ -37,7 +42,7 @@
     </div>
   </div>
 
-  <div class="w-75 mw-100">
+  <div class="w-75-ns w-100 mw-100">
     {{outlet}}
   </div>
 </div>

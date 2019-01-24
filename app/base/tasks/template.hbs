@@ -1,36 +1,36 @@
-<div class="flex">
-  <div class="w-two-thirds">
-    <div class="flex dib pv2 ph2 hide-child">
+<div class="flex flex-wrap">
+  <div class="w-two-thirds helvetica">
+    <div class="flex dib pv3 ph3 hide-child">
       <input
         value={{model.rankableGroup.title}}
         onchange={{action "updateRankableGroupTitle" model.rankableGroup}}
-        class="helvetica ph1 bn bg-transparent lh-copy f3 fw6 black">
-      <button 
-        type="button" 
+        class="ph1 bn mw-100 bg-transparent lh-copy underline f3 fw6 black">
+      <button
+        type="button"
         onclick={{action "deleteRankableGroup" model.rankableGroup}}
-        class="helvetica bg-black bn white fw6 dib pv1 ph3 b--black pointer child">
+        class="bg-dark-red bn white fw6 dib pv1 ph3 b--black pointer child">
         delete
       </button>
     </div>
 
-    <div class="lh-copy f5 fw6 black">
+    <div class="lh-copy f5 fw6 black ph3">
       {{#each model.rankables as |rankable|}}
-        {{#link-to "base.tasks.task" rankable.id classNames="helvetica flex f5 fw6 db black link dim pv2 ph2"}}
+        {{#link-to "base.tasks.task" rankable.id classNames="flex f5 fw6 db black link dim pv2 ph2"}}
           {{rankable.title}}
         {{/link-to}}
       {{/each}}
-    </div>
 
-    <div class="db">
-      <input
-         value={{rankableTitle}}
-         class="bn bg-transparent pv2 ph2 w-100"
-         onchange={{action (mut rankableTitle) value="target.value"}}
-         onblur={{action "addNewRankable"  rankableTitle model.rankableGroup store}} placeholder="Add a new item">
+      <div class="db">
+        <input
+          value={{rankableTitle}}
+          class="bn bg-transparent pv2 ph2 w-100"
+          onchange={{action (mut rankableTitle) value="target.value"}}
+                                                onblur={{action "addNewRankable"  rankableTitle model.rankableGroup store}} placeholder="Add a new item">
+      </div>
     </div>
   </div>
 
-  <div class="w-third">
+  <div class="w-third-ns w-100">
     {{outlet}}
   </div>
 </div>

@@ -1,45 +1,47 @@
-<div class="helvetica vh-100 w-90 mv3 mh2 outline">
+<div class="helvetica h-100 v-mid mv3 mh2 outline">
   <div class="bg-black h1 mb3"></div>
   <div class="ph3">
     <div class="f3 fw9">Details</div>
 
     <div class="pv1">
-      <span class="ttu f6 measure">Rank</span>
-      <div class="bg-black white">{{model.rankable.rank}}</div>
-    </div>
+      <div class="mb2">
+        <span class="ttu f6 measure pa1">Rank</span>
+        <div class="bg-black white pa1">{{model.rankable.rank}}</div>
+      </div>
 
-    <div class="pv1">
-      <span class="ttu f6 measure">Title</span>
-      <input 
-            class="b--black w-100 db" 
-            style="border-width: 1px" 
-            onchange={{action "updateRankable" model.rankable "title"}}
-            value={{model.rankable.title}}>
-    </div>
+      <div class="mb2">
+        <span class="ttu f6 measure">Title</span>
+        <input 
+              class="b--black w-100 border-box db pa1" 
+              style="border-width: 1px" 
+              onchange={{action "updateRankable" model.rankable "title"}}
+              value={{model.rankable.title}}>
+      </div>
 
-    <div class="pv1">
-      <span class="ttu f6 measure">Description</span>
-      <textarea
-            class="b--black db h4 w-100"
-            onchange={{action "updateRankable" model.rankable "description"}}
-            value={{model.rankable.description}}>
-      </textarea>
-    </div>
+      <div class="mb2">
+        <span class="ttu f6 measure">Description</span>
+        <textarea
+          class="b--black db h4 w-100 pa1"
+          onchange={{action "updateRankable" model.rankable "description"}}
+          value={{model.rankable.description}}>
+        </textarea>
+      </div>
 
-    <div>
-      {{#link-to "base.tasks.compare" model.rankable.id
-        classNames="f6 no-underline black bg-animate hover-bg-black hover-white inline-flex
-        items-center pa2 ba border-box dib"}}
-        <span class="pl1">rank</span>
-      {{/link-to}}
+      <div>
+        {{#link-to "base.tasks.compare" model.rankable.id
+          classNames="f6 no-underline black bg-animate hover-bg-black hover-white inline-flex
+          items-center pa2 ba border-box dib"}}
+          <span class="pl1">rank</span>
+        {{/link-to}}
 
-      <button
-          onclick={{action "deleteRankable" model.rankable model.rankableGroup}}
-          class="f6 no-underline black bg-animate hover-bg-red inline-flex
-          items-center pa2 ba border-box dib bg-black white"
-          type="button">
-        delete
-      </button>
+        <button
+            onclick={{action "deleteRankable" model.rankable model.rankableGroup}}
+            class="f6 no-underline black bg-animate inline-flex
+            items-center pa2 ba border-box dib bg-dark-red white"
+            type="button">
+          delete
+        </button>
+      </div>
     </div>
   </div>
 </div>
