@@ -1,120 +1,49 @@
-<!-- ========== MAIN ========== -->
-<main id="content" role="main">
-<!-- Form -->
-<div class="d-flex align-items-center position-relative min-height-100vh--lg">
-  <!-- Navbar -->
-  <header class="position-absolute-top-0 z-index-2">
-    <nav class="d-flex justify-content-between align-items-center">
-      <!-- Logo -->
-      <div class="col-lg-5 col-xl-4 text-lg-center px-0">
-        <a class="d-inline-block p-3 p-sm-5" href="../home/index.html" aria-label="Front">
-          <img class="d-none d-lg-inline-block" src="../../assets/svg/logos/logo-white.svg" alt="Logo" style="width: 140px;">
-          <img class="d-inline-block d-lg-none" src="../../assets/svg/logos/logo.svg" alt="Logo" style="width: 140px;">
-        </a>
-      </div>
-      <!-- End Logo -->
-    </nav>
-  </header>
-  <!-- End Navbar -->
-
-  <div class="col-lg-5 col-xl-4 d-none d-lg-flex align-items-center u-gradient-half-primary-v1 min-height-100vh--lg px-0">
-  </div>
-
-  <div class="container">
-    <div class="row no-gutters">
-      <div class="col-md-8 col-lg-7 col-xl-6 offset-md-2 offset-lg-2 offset-xl-3 u-space-3 u-space-0--lg">
-        <!-- Form -->
-        <form class="js-validate mt-5">
-          <!-- Title -->
-          <div class="mb-7">
-            <h1 class="h3 text-primary font-weight-normal mb-0">
-              <span class="font-weight-bold"><span class="text-dark">lexicoi</span> compare</span>
-            </h1>
-            <p>
-              Fill out the form to get started, or try it now without signing up.
-            </p>
-          </div>
-          <!-- End Title -->
-
-          <!-- Input -->
-          <div class="js-form-message mb-4">
-            <label class="h6 small d-block text-uppercase">Email address</label>
-
-            <div class="js-focus-state input-group u-form">
-              <input type="email" class="form-control u-form__input" name="email" required
-              placeholder="perfectlyprioritized@domain.com"
-              aria-label="perfectlyprioritized@walley.com"
-              data-msg="Please enter a valid email address."
-              data-error-class="u-has-error"
-              data-success-class="u-has-success">
-            </div>
-          </div>
-          <!-- End Input -->
-
-          <!-- Input -->
-          <div class="js-form-message mb-4">
-            <label class="h6 small d-block text-uppercase">Password</label>
-
-            <div class="js-focus-state input-group u-form">
-              <input type="password" class="form-control u-form__input" name="password" required
-              placeholder="********"
-              aria-label="********"
-              data-msg="Your password is invalid. Please try again."
-              data-error-class="u-has-error"
-              data-success-class="u-has-success">
-            </div>
-          </div>
-          <!-- End Input -->
-
-          <!-- Input -->
-          <div class="js-form-message mb-3">
-            <label class="h6 small d-block text-uppercase">Confirm Password</label>
-
-            <div class="js-focus-state input-group u-form">
-              <input type="password" class="form-control u-form__input" name="confirmPassword" required
-              placeholder="********"
-              aria-label="********"
-              data-msg="Password does not match the confirm password."
-              data-error-class="u-has-error"
-              data-success-class="u-has-success">
-            </div>
-          </div>
-          <!-- End Input -->
-
-          <!-- Checkbox -->
-          <div class="js-form-message mb-5">
-            <div class="custom-control custom-checkbox d-flex align-items-center text-muted">
-              <input type="checkbox" class="custom-control-input" id="termsCheckbox" name="termsCheckbox" required
-              data-msg="Please accept our Terms and Conditions."
-              data-error-class="u-has-error"
-              data-success-class="u-has-success">
-              <label class="custom-control-label" for="termsCheckbox">
-                <small>
-                  I agree to the
-                  <a class="u-link-muted" href="../pages/terms.html">Terms and Conditions</a>
-                </small>
-              </label>
-            </div>
-          </div>
-          <!-- End Checkbox -->
-
-          <!-- Button -->
-          <div class="row align-items-center mb-5">
-            <div class="col-5 col-sm-6">
-              <span class="small text-muted">Already have an account?</span>
-              {{#link-to "login" classNames="small"}}Login{{/link-to}}
-            </div>
-
-            <div class="col-7 col-sm-6 text-right">
-              <button type="submit" class="btn btn-primary u-btn-primary transition-3d-hover">Get Started</button>
-            </div>
-          </div>
-          <!-- End Button -->
-        </form>
-        <!-- End Form -->
-      </div>
-    </div>
-  </div>
+<div id="header" class="pv3 bg-black white">
+  <span class="ph4">
+    △
+  </span>
+  <span class="b white helvetica">
+    rankables
+  </span>
+  <button class="fr bg-white black bn dn-ns dib mr3">
+    =
+  </button>
 </div>
-<!-- End Form -->
-</main>
+
+<div>
+  <article class="pa4 black-80 helvetica">
+    <form onsubmit={{action 'signUp'}}>
+      <fieldset id="sign_up" class="ba b--transparent ph0 mh0">
+        <legend class="ph0 mh0 fw6 clip">Sign Up</legend>
+        <div class="mt3">
+          <label class="db fw4 lh-copy f6" for="username">Username</label>
+          <input
+             class="pa2 input-reset ba bg-transparent w-100 measure"
+             type="text"
+             value={{username}}
+             name="username"
+             id="username">
+        </div>
+        <div class="mt3">
+          <label class="db fw4 lh-copy f6" for="password">Password</label>
+          <input
+             class="pa2 input-reset ba bg-transparent w-100 measure"
+             type="password"
+             name="password"
+             value={{password}}
+             id="password">
+        </div>
+        <div class="mt3">
+          <label class="db fw4 lh-copy f6" for="password-confirmation">Password Confirmation</label>
+          <input
+             class="pa2 input-reset ba bg-transparent w-100 measure"
+             type="password"
+             name="password-confirmation"
+             value={{passwordConfirmation}}
+             id="password-confirmation">
+        </div>
+      </fieldset>
+      <div class="mt3"><input class="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6" type="submit" value="Sign Up"></div>
+    </form>
+  </article>
+</div>

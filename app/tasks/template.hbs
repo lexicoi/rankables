@@ -1,0 +1,36 @@
+<div class="flex flex-wrap">
+  <div class="w-two-thirds helvetica">
+    <div class="flex dib pv3 ph3 hide-child">
+      <input
+        value={{model.rankableGroup.title}}
+        onchange={{action "updateRankableGroupTitle" model.rankableGroup}}
+        class="ph1 bn mw-100 bg-transparent lh-copy underline f3 fw6 black">
+      <button
+        type="button"
+        onclick={{action "deleteRankableGroup" model.rankableGroup}}
+        class="bg-dark-red bn white fw6 dib pv1 ph3 b--black pointer child">
+        delete
+      </button>
+    </div>
+
+    <div class="lh-copy f5 fw6 black ph3">
+      {{#each model.rankables as |rankable|}}
+        {{#link-to "base.tasks.task" rankable.id classNames="flex f5 fw6 db black link dim pv2 ph2"}}
+          {{rankable.title}}
+        {{/link-to}}
+      {{/each}}
+
+      <div class="db">
+        <input
+          value={{rankableTitle}}
+          class="bn bg-transparent pv2 ph2 w-100"
+          onchange={{action (mut rankableTitle) value="target.value"}}
+                                                onblur={{action "addNewRankable"  rankableTitle model.rankableGroup store}} placeholder="Add a new item">
+      </div>
+    </div>
+  </div>
+
+  <div class="w-third-ns w-100">
+    {{outlet}}
+  </div>
+</div>
