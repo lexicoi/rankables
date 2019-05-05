@@ -48,6 +48,8 @@
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-pouch": "^6.0.0",
     "ember-resolver": "^4.0.0",
+    "ember-simple-auth": "^1.8.1",
+    "ember-simple-auth-token": "^4.0.6",
     "ember-source": "^3.4.7",
     "eslint-plugin-ember": "^5.0.0",
     "immer": "^1.8.0",

@@ -2,6 +2,11 @@
 
 module.exports = function(environment) {
   let ENV = {
+    "ember-simple-auth-token": {
+      refreshAccessTokens: true,
+      refreshLeeway: 300,
+    },
+
     emberPouch: {
       localDb: "test"
     },
