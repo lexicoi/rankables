@@ -12,9 +12,9 @@ export default Component.extend({
       event.preventDefault();
       const rankableTitle = event.target["rankable-title"].value;
 
-      this.get("store").createRecord("rankable", {
+      this.store.createRecord("rankable", {
         title: rankableTitle,
-        rankableGroup: get(this, "rankableGroup")
+        rankableGroup: this.rankableGroup
       }).save().then((rankable) => {
         event.target["rankable-title"].value = null;
         this.saveAndUpdateRankable(rankable);

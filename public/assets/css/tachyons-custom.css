@@ -1,0 +1,20 @@
+.r-nav {
+  min-height: 1rem;
+  max-height: 0;
+  transition: max-height 1s;
+}
+
+.r-nav-tall {
+  min-height: 1rem;
+  max-height: 0;
+  transition: max-height 1s;
+}
+
+.r-nav-activate:checked ~ .r-nav {
+  max-height: 25rem;
+  min-height: 100vh;
+}
+
+.r-nav-activate:checked ~ .r-nav-tall {
+  min-height: 100vh;
+}
