@@ -3,6 +3,8 @@ import RankableGroup from "rankables/models/rankable-group";
 
 export default class BaseController extends Controller {
 
+  expandGroups = false;
+
   actions = {
 
       createRankableGroup(rankableGroupTitle: string, store: any, event: any) {

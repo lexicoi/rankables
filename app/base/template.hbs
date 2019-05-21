@@ -1,27 +1,35 @@
 {{ui/nav-header}}
 
-<div class="flex flex-wrap">
-  <div class="w-25-ns w-100 db-m db-l vh-100 bg-black-10">
+<div class="flex">
+  <div class="db-m db-l vh-100 bg-black-10">
     <div class="lh-copy f5 fw6 black">
-      <div class="helvetica flex dib link dim pv2 ph2">
-      </div>
+      <nav class="pv3">
+        <div class="f5 fw4 white pv2 cf">
+          <input checked={{expandGroups}} onchange={{action (mut expandGroups)
+          value="target.checked"}} type="checkbox" id="navigation" class="absolute dn">
+          <label for="navigation" class="pointer w1 fl pl3">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1.2em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1536 1280"><path d="M1536 1088v128q0 26-19 45t-45 19H64q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h1408q26 0 45 19t19 45zm0-512v128q0 26-19 45t-45 19H64q-26 0-45-19T0 704V576q0-26 19-45t45-19h1408q26 0 45 19t19 45zm0-512v128q0 26-19 45t-45 19H64q-26 0-45-19T0 192V64q0-26 19-45T64 0h1408q26 0 45 19t19 45z" fill="black"/></svg>
+          </label>
+        </div>
+      </nav>
 
       {{#each model as |rankableGroup|}}
         {{#link-to "base.tasks" rankableGroup.title
-        classNames="helvetica flex f5 dib black link dim pv2 ph2 db-ns dn"}}
-          <span class="w-10 ph1">✦</span>
-          <span class="w-80 ph1">{{rankableGroup.title}}</span>
-          <span class="w-10 ph1 fr">{{rankableGroup.rankables.length}}</span>
+          classNames="helvetica flex f5 dib black link dim pv2 ph3 db-ns dn"}}
+          <span class="w-10 ph1">-</span>
+          <span class="w-80 {{if expandGroups '' 'dn'}} ph1">{{rankableGroup.title}}</span>
+          <span class="w-10 {{if expandGroups '' 'dn'}} ph1 fr">{{rankableGroup.rankables.length}}</span>
         {{/link-to}}
       {{/each}}
 
       <form
-        class="flex db pv2 ph2 helvetica"
+        onclick={{action (mut expandGroups) checked="true"}}
+        class="flex db pv2 ph3 helvetica"
         onsubmit={{action "createRankableGroup" rankableGroupTitle store}}>
           <span class="w-10 ph1">✦</span>
           <input
             name="rankable-group-title"
-            class="db bg-transparent bn w-90"
+            class="bg-transparent bn w-90 {{if expandGroups 'db' 'dn'}}"
             value={{rankableGroupTitle}}
             onchange={{action (mut rankableGroupTitle) value="target.value"}}
             placeholder="New list">
