@@ -10,16 +10,15 @@ import { resetRankings } from "./utils";
 
 const $ = tailored.variable();
 
-export default class BaseTasksCompareController extends Controller {
-
-  previousCurrentRankableId = alias("model.previousCurrentRankableId");
-  previousComparison = alias("model.previousComparison")
-  lowerBound = alias("model.lowerBound");
-  upperBound = alias("model.upperBound");
+export default class BaseTasksCompareController extends Controller.extend({
+  previousCurrentRankableId: alias("model.previousCurrentRankableId"),
+  previousComparison: alias("model.previousComparison"),
+  lowerBound: alias("model.lowerBound"),
+  upperBound: alias("model.upperBound"),
 
   // This is the ranking list taking into account where you are in the comparison sequence
-  newRankings = computed(
-    "model.rankings.[]", 
+  newRankings: computed(
+    "model.rankings.@each", 
     "model.rankable",
     "model.upperBound",
     "model.lowerBound",
@@ -34,10 +33,10 @@ export default class BaseTasksCompareController extends Controller {
       tempRankings.removeObject(get(rankableToCompare, "id"))
       return tempRankings.slice(lowerBound, upperBound);
     }
-  );
+  ),
 
   // This represents rankings that will be saved, if desired
-  tentativeRankings = computed(
+  tentativeRankings: computed(
     "newRankings",
     "previousCurrentRankableId",
     "previousComparison",
@@ -74,19 +73,19 @@ export default class BaseTasksCompareController extends Controller {
 
       )(this.previousComparison)
     }
-  );
+  ),
 
   // These are the rankables associated with the rankings specified
-  rankedRankables = computed("model.rankable.id", "model.rankables.[]", "newRankings.[]",
+  rankedRankables: computed("model.rankable.id", "model.rankables.[]", "newRankings.[]",
     function(this: BaseTasksCompareController): any {
       const rankables = get(get(this, "model"), "rankables");
       return rankables.filter((rankable: Rankable) => {
         return get(this, "newRankings").includes(rankable.id)
       });
     }
-  );
+  ),
 
-  currentRankable = computed("newRankings.@each",
+  currentRankable: computed("newRankings.@each",
     function(this: BaseTasksCompareController): any {
       const otherRankables = get(this, "newRankings");
       const middleIndex = Math.floor(otherRankables.length/2);
@@ -97,8 +96,11 @@ export default class BaseTasksCompareController extends Controller {
 
       return this.store.peekRecord("rankable", tentativeCurrentRankable);
     }
-  );
+  )
 
+}) {
+ 
+  /*
   resetRankings(store: any, rankableGroup: RankableGroup, tentativeRankings: string[]): void {
     const rankings = get(rankableGroup, "rankings");
     tentativeRankings.forEach((value: string, index: number) => {
@@ -115,6 +117,7 @@ export default class BaseTasksCompareController extends Controller {
       });
     })
   }
+   */
 
   actions = {
     compare(this: BaseTasksCompareController, comparison: string, currentRankable: Rankable): void {

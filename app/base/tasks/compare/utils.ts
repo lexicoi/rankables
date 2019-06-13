@@ -1,6 +1,7 @@
 import Rankable from "rankables/models/rankable";
 import Ember from "ember";
 
+// Given a set of rankings, reset them.
 export function resetRankings(store: any, tentativeRankings: string[], rankings: string[]): Promise<any> {
   let promises: any = [];
 
