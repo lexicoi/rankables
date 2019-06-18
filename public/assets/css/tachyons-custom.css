@@ -18,3 +18,7 @@
 .r-nav-activate:checked ~ .r-nav-tall {
   min-height: 100vh;
 }
+
+.w-85 {
+  width: 85%;
+}

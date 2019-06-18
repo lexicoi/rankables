@@ -18,7 +18,7 @@ export default class BaseTasksCompareController extends Controller.extend({
 
   // This is the ranking list taking into account where you are in the comparison sequence
   newRankings: computed(
-    "model.rankings.@each", 
+    "model.rankings.@each",
     "model.rankable",
     "model.upperBound",
     "model.lowerBound",
@@ -123,7 +123,6 @@ export default class BaseTasksCompareController extends Controller.extend({
     compare(this: BaseTasksCompareController, comparison: string, currentRankable: Rankable): void {
       const rankings = get(this, "newRankings");
       const index = rankings.indexOf(currentRankable.id);
-      const self = this;
 
       tailored.defmatch(
         tailored.clause(["lesser", { id: $ }], (currentRankableId: string) => {
@@ -131,7 +130,6 @@ export default class BaseTasksCompareController extends Controller.extend({
           set(this, "lowerBound", index + 1);
           set(this, "previousCurrentRankableId", currentRankableId);
           set(this, "previousComparison", "lesser");
-          console.log(self);
         }),
 
         tailored.clause(["greater", { id: $ }], (currentRankableId: string) => {
@@ -139,7 +137,6 @@ export default class BaseTasksCompareController extends Controller.extend({
           set(this, "lowerBound", 0);
           set(this, "previousCurrentRankableId", currentRankableId);
           set(this, "previousComparison", "greater");
-          console.log(self);
         })
       )(comparison, currentRankable)
     },

@@ -19,7 +19,7 @@ export default class BaseTasksCompareController extends Controller {
 
   // This is the ranking list taking into account where you are in the comparison sequence
   newRankings = computed(
-    "model.rankings.[]", 
+    "model.rankings.[]",
     "model.rankable",
     "model.upperBound",
     "model.lowerBound",
